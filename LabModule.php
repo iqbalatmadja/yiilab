@@ -1,5 +1,4 @@
 <?php
-define('IS_SALESORDER_MODULE',1);
 class LabModule extends CWebModule
 {
 	private $_assetsUrl;
@@ -22,11 +21,11 @@ class LabModule extends CWebModule
 			'yiilab.components.*',
 		));
 		
-    Yii::app()->setComponent('inventory', array(
-            'class' => 'core.components.CInventory'
-    ));
+    // Yii::app()->setComponent('inventory', array(
+    //         'class' => 'core.components.CInventory'
+    // ));
 
-		Yii::app()->clientScript->registerScript('initjssalesorder', '
+		Yii::app()->clientScript->registerScript('initjslab', '
 		
 		', CClientScript::POS_END);
 	}
@@ -36,8 +35,8 @@ class LabModule extends CWebModule
 		if(parent::beforeControllerAction($controller, $action))
 		{
 			Yii::app()->errorHandler->errorAction='yiilab/default/error';
-            $this->layoutPath = Yii::getPathOfAlias('yiilab.views.layouts');
-            $controller->layout = 'main';
+      $this->layoutPath = Yii::getPathOfAlias('yiilab.views.layouts');
+      $controller->layout = 'main';
 			return true;
 		}
 		else

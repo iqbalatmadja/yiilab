@@ -1,5 +1,5 @@
 <h2>DATATABLES</h2>
-<table id="dtofficer" class="table table-striped table-bordered" width="100%" cellspacing="0">
+<table id="dtable" class="table table-striped table-bordered" width="100%" cellspacing="0">
    <thead>
        <tr>
            <th>ID</th>
@@ -11,7 +11,7 @@
    </thead>
 
    <tfoot>
-      
+
 </table>
 <?php
 $assetUrl = Yii::app()->getModule('yiilab')->getAssetsUrl();
@@ -30,62 +30,61 @@ Yii::app()->clientScript->registerScriptFile($assetUrl.'/DataTables/DataTables-1
 Yii::app()->clientScript->registerScriptFile($assetUrl.'/DataTables/Responsive-2.2.2/js/dataTables.responsive.min.js', CClientScript::POS_END);
 $url = Yii::app()->createAbsoluteUrl('yiilab/default/populateData');
 $script = <<< JS
-    $(document).ready(function() {
-        var dataTable = $('#dtofficer').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "info": false,
-        "lengthChange":false,
-        "pageLength":5,
-        "aaSorting": [[1,"DESC"]],
-        "bAutoWidth":true,
-        "ajax": {
-            url: "$url",
-            type: "post",
-            error: function()
-            {
-               alert('error');
-            }
-         
+  $(document).ready(function() {
+      var dataTable = $('#dtable').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "info": true,
+      "lengthChange":true,
+      "pageLength":5,
+      "aaSorting": [[1,"DESC"]],
+      "bAutoWidth":true,
+      "ajax": {
+          url: "$url",
+          type: "post",
+          error: function()
+          {
+             alert('error');
+          }
+
+      },
+      "columns":[
+        {
+          'className':'details-control',
+          'orderable': false,
+          'data':'id'
         },
-        "columns":[
-          {
-            'className':'details-control',
-            'orderable': false,
-            'data':'id'
-          },
-          {
-            'className':'details-control',
-            'orderable': true,
-            'data':'nama_depan'
-          },
-          {
-            'className':'details-control',
-            'orderable': false,
-            'data':'email'
-          },
-          {
-            'className':'details-control',
-            'orderable': false,
-            'data':'phone'
-          },
-          {
-            'className':'details-control',
-            'orderable': false,
-            'data':'buttons'
-          },
+        {
+          'className':'details-control',
+          'orderable': true,
+          'data':'nama_depan'
+        },
+        {
+          'className':'details-control',
+          'orderable': false,
+          'data':'email'
+        },
+        {
+          'className':'details-control',
+          'orderable': false,
+          'data':'phone'
+        },
+        {
+          'className':'details-control',
+          'orderable': false,
+          'data':'buttons'
+        },
 
-        ]
-    });
-    
-    $('#dtofficer tbody').on('click', '.selRow', function (){
-      var data = dataTable.row($(this).parents('tr')).data();
-      alert(data['id']);
-      //window.location = '';
-      return false;
-    });   
-
+      ]
   });
+
+  $('#dtofficer tbody').on('click', '.selRow', function (){
+    var data = dataTable.row($(this).parents('tr')).data();
+    alert(data['id']);
+    //window.location = '';
+    return false;
+  });
+
+});
 JS;
 Yii::app()->clientScript->registerScript('wweeeqqwewq', $script, CClientScript::POS_END);
-

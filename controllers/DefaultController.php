@@ -1,37 +1,43 @@
 <?php
 class DefaultController extends Controller {
-  public function actionIndex() 
+  public function actionIndex()
   {
     $data = [];
     $this->render('index',$data);
   }
-  
-  public function actionPopulateData() 
+
+  public function actionPopulateData()
   {
     $requestData = $_REQUEST;
-    $columns = [
-      0 => 'id',
+    $columnsToOrder = [
       1 => 'nama_depan',
       2 => 'email',
       3 => 'phone'
     ];
+    $columnsToFilter = [
+      'nama_depan','email','phone'
+    ];
     $tableName = 't_user';
 
-    $sql = "SELECT  * from ".$tableName." where 1=1";
+    $sql = "SELECT  * from ".$tableName." where 1=1 ";
     $data = Yii::app()->db->createCommand($sql)->queryAll();
     $totalData = count($data);
     $totalFiltered = $totalData;
 
-    if (!empty($requestData['search']['value'])){
-      $sql.=" AND (nama_depan LIKE '" . $requestData['search']['value'] . "%' ";
-      $sql.=" OR email LIKE '" . $requestData['search']['value'] . "%'";
-      $sql.=" OR phone LIKE '" . $requestData['search']['value'] . "%')";
+    if(!empty($requestData['search']['value']) && !empty($columnsToFilter)){
+      $sql .= "AND( ";
+      foreach($columnsToFilter as $f){
+        $sql .= $f." LIKE '".$requestData['search']['value']."%' OR ";
+      }
+      $sql = substr($sql,0,strlen($sql)-3);
+      $sql .= ") ";
     }
+
     $data = Yii::app()->db->createCommand($sql)->queryAll();
     $totalFiltered = count($data);
-    
+
     if(!empty($requestData['order'][0])){
-      $sql .= " ORDER BY ".$columns[$requestData['order'][0]['column']]."  ".$requestData['order'][0]['dir']."  LIMIT ".$requestData['start']." ,".$requestData['length']."  ";
+      $sql .= " ORDER BY ".$columnsToOrder[$requestData['order'][0]['column']]."  ".$requestData['order'][0]['dir']."  LIMIT ".$requestData['start']." ,".$requestData['length']."  ";
     }
     $result = Yii::app()->db->createCommand($sql)->queryAll();
 
@@ -49,13 +55,13 @@ class DefaultController extends Controller {
       $data[] = $nestedData;
       $i++;
     }
-    $json_data = array(
-      "draw" => isset($requestData['draw']) ? intval($requestData['draw']) : 0, 
+    $jsonData = [
+      "draw" => isset($requestData['draw']) ? intval($requestData['draw']) : 0,
       "recordsTotal" => intval($totalData),
       "recordsFiltered" => intval($totalFiltered),
       "data" => $data   // total data array
-    );
-    echo json_encode($json_data);
+    ];
+    echo CJSON::encode($jsonData);
   }
 
   public function actionError() {
@@ -336,9 +342,27 @@ class DefaultController extends Controller {
     echo "<pre>";print_r($array);echo "</pre>";die;
   }
 
+  public function actionEditor()
+  {
+    $this->render('editor',[]);
+  }
+
+  public function actionMap()
+  {
+    $data = [];
+    $this->render('map',$data);
+  }
+
+  public function actionMap2()
+  {
+    $data = [];
+    $this->render('map2',$data);
+  }
+
+
 }
 
-/** 
- * 
+/**
+ *
  * EOF
 */
