@@ -359,6 +359,76 @@ class DefaultController extends Controller {
     $this->render('map2',$data);
   }
 
+  public function actionAny()
+  {
+    $data = [];
+    $this->render('any',$data);
+  }
+
+  public function actionDts()
+  {
+    $data = [];
+    $this->render('dts',$data);
+  }
+
+  public function actionPopulateUser()
+  {
+    $sql = "SELECT t.id user_id,t.nama_depan first_name,
+    t.nama_belakang last_name, t.datecreate created_dt,t.status
+    FROM t_user t
+    WHERE 1 ";
+
+    $requestData = $_REQUEST;
+    $columns = ['user_id','first_name','last_name','created_dt','status'];
+
+    $data = Yii::app()->db->createCommand($sql)->queryAll();
+    $totalData = count($data);
+    $totalFiltered = $totalData;
+
+    if(!empty($requestData['search']['value']) && !empty($columns)){
+      $sql .= "AND( ";
+      foreach($columns as $f){
+        $sql .= $f." LIKE '".$requestData['search']['value']."%' OR ";
+      }
+      $sql = substr($sql,0,strlen($sql)-3);
+      $sql .= ") ";
+    }
+
+    $data = Yii::app()->db->createCommand($sql)->queryAll();
+    $totalFiltered = count($data);
+
+    if(!empty($requestData['order'][0])){
+      $sql .= " ORDER BY ".$columns[$requestData['order'][0]['column']]."  ".$requestData['order'][0]['dir']."  LIMIT ".$requestData['start']." ,".$requestData['length']."  ";
+    }
+    $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+    $data = [];
+    $i=1;
+
+    foreach ($result as $key => $row){
+      $nestedData = [];
+      $viewUrl = Yii::app()->createAbsoluteUrl('/servicemanagement/schedules/view',['id'=>$row['user_id']]);
+      $nestedData = [
+        'user_id' => $row['user_id'],
+        'first_name' => $row['first_name'],
+        'last_name' => $row["last_name"],
+        'created_dt' => $row["created_dt"],
+        'status' => $row['status'],
+        'view_url' => $viewUrl,
+      ];
+      $data[] = $nestedData;
+      $i++;
+    }
+
+    $jsonData = [
+      "draw" => isset($requestData['draw']) ? intval($requestData['draw']) : 0,
+      "recordsTotal" => intval($totalData),
+      "recordsFiltered" => intval($totalFiltered),
+      "data" => $data   // total data array
+    ];
+    echo CJSON::encode($jsonData);
+
+  }
 
 }
 
