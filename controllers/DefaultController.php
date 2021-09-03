@@ -379,13 +379,15 @@ class DefaultController extends Controller {
     WHERE 1 ";
 
     $requestData = $_REQUEST;
-    $columns = ['user_id','first_name','last_name','created_dt','status'];
+    $columnsToFilter = ['user_id','first_name','created_dt','status'];
+    $columnsToOrder = ['user_id','first_name','created_dt','status'];
+
 
     $data = Yii::app()->db->createCommand($sql)->queryAll();
     $totalData = count($data);
     $totalFiltered = $totalData;
 
-    if(!empty($requestData['search']['value']) && !empty($columns)){
+    if(!empty($requestData['search']['value']) && !empty($columnsToFilter)){
       $sql .= "AND( ";
       foreach($columns as $f){
         $sql .= $f." LIKE '".$requestData['search']['value']."%' OR ";
@@ -398,10 +400,10 @@ class DefaultController extends Controller {
     $totalFiltered = count($data);
 
     if(!empty($requestData['order'][0])){
-      $sql .= " ORDER BY ".$columns[$requestData['order'][0]['column']]."  ".$requestData['order'][0]['dir']."  LIMIT ".$requestData['start']." ,".$requestData['length']."  ";
+      $sql .= " ORDER BY ".$columnsToOrder[$requestData['order'][0]['column']]."  ".$requestData['order'][0]['dir']."  LIMIT ".$requestData['start']." ,".$requestData['length']."  ";
     }
     $result = Yii::app()->db->createCommand($sql)->queryAll();
-
+    Yii::log("SQL:".$sql,"warning");
     $data = [];
     $i=1;
 
