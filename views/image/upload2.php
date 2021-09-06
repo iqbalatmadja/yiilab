@@ -57,8 +57,8 @@ $assetUrl = Yii::app()->getModule('yiilab')->getAssetsUrl();
 Yii::app()->clientScript->registerScriptFile($assetUrl.'/bootstrap/dist/js/bootstrap.min.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerCssFile($assetUrl.'/bootstrap/dist/css/bootstrap.min.css');
 
-Yii::app()->clientScript->registerCssFile($assetUrl.'/dropzone-5.7.0/dist/min/dropzone.min.css');
-Yii::app()->clientScript->registerScriptFile($assetUrl.'/dropzone-5.7.0/dist/min/dropzone.min.js', CClientScript::POS_END);
+// Yii::app()->clientScript->registerCssFile($assetUrl.'/dropzone-5.7.0/dist/min/dropzone.min.css');
+// Yii::app()->clientScript->registerScriptFile($assetUrl.'/dropzone-5.7.0/dist/min/dropzone.min.js', CClientScript::POS_END);
 
 Yii::app()->clientScript->registerCssFile($assetUrl.'/cropperjs/dist/cropper.min.css');
 Yii::app()->clientScript->registerScriptFile($assetUrl.'/cropperjs/dist/cropper.min.js', CClientScript::POS_END);
