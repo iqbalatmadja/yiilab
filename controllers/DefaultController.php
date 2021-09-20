@@ -432,6 +432,23 @@ class DefaultController extends Controller {
 
   }
 
+  public function actionProgress1()
+  {
+    $data = [];
+    $this->render('progress1',$data);
+  }
+
+  public function actionProgress1Process()
+  {
+    $result = 0;
+    $message = "Something is wrong";
+    sleep(3);
+    $result = 1;
+    $message = "OK";
+
+    $data = ['result'=>$result,'message'=>$message];
+    echo CJSON::encode($data);
+  }
 }
 
 /**
