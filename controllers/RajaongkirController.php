@@ -315,8 +315,8 @@ class RajaongkirController extends Controller {
   public function actionTracking()
   {
     $apiKey = 'b6bcabe308c3efaf35197ac2f50c81e3';
-    $waybill = '6300592100003425';
-    $courier = 'jne';
+    $waybill = '22201105455885';
+    $courier = 'rex';
 
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -327,10 +327,10 @@ class RajaongkirController extends Controller {
       CURLOPT_TIMEOUT => 30,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => "POST",
-      CURLOPT_POSTFIELDS => "waybill=6300592100003425&courier=jne",
+      CURLOPT_POSTFIELDS => "waybill=".$waybill."&courier=".$courier,
       CURLOPT_HTTPHEADER => array(
         "content-type: application/x-www-form-urlencoded",
-        "key: b6bcabe308c3efaf35197ac2f50c81e3"
+        "key: ".$apiKey
       ),
     ));
 

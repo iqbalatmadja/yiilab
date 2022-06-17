@@ -77,7 +77,14 @@ class TestController extends Controller {
     */
     // $product_details = Yii::app()->inventory->stockDetail(21,188, 0, '', '');
     // echo "<pre>";print_r($product_details);echo "</pre>";
-    echo "<pre>";print_r(CGlobal::checkAccess('admin.import.csv'));echo "</pre>";die;
+    //echo "<pre>";print_r(CGlobal::checkAccess('admin.import.csv'));echo "</pre>";die;
+    //echo "<pre>";print_r(Yii::getFrameworkPath());echo "</pre>";
+    // echo "<pre>";print_r(Yii::app()->baseUrl);echo "</pre>";
+    echo "<pre>";print_r(Yii::app()->basePath);echo "</pre>";
+    //echo "<pre>";print_r(YiiBase::getPathOfAlias('webroot'));echo "</pre>";
+    //echo "<pre>";print_r(Yii::app()->getBaseUrl(true));echo "</pre>";
+    //echo YiiBase::getPathOfAlias('application');
+    // echo dirname(Yii::app()->request->scriptFile)."/config/yiic";
   }
 
 
