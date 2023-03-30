@@ -22,7 +22,6 @@
 
 
 <div>
-<div>
     <h4>select2 with thumbnail</h4>
     <select class="example2" name="state[]" multiple="multiple" style="width: 150px;">
     <option value="AA" data-image="http://localhost/images/01.png">AA</option>
@@ -36,6 +35,9 @@
     </select>
 </div>
 
+<div>
+    <h4>select2 with ajax</h4>
+    <select class="example3" style="width: 150px;"></select>
 </div>
 
 <script>
@@ -59,7 +61,14 @@ $(document).ready(function() {
         multiple: true,
         templateResult: addUserPic, // thumbnail on options
         // templateSelection: addUserPic // thumbnail on selected options
+    });
 
+    $('.example3').select2({
+        ajax: {
+            url: 'http://localhost/hagihara/yiilab/select2/getValues',
+            dataType: 'json'
+            // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+        }
     });
 
     function addUserPic(opt) {
