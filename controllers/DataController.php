@@ -116,6 +116,11 @@ $decryption = openssl_decrypt ($encryption, $ciphering,
 echo "Decrypted String: " . $decryption."  <br/><br/>";
   }
 
+  public function actionChecker()
+  {
+    $this->render('checker');
+  }
+
 }
 
 /**
